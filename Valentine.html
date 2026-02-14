@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para NAYE 💖</title>
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:black;
+  font-family:Arial, sans-serif;
+}
+#texto{
+  position:absolute;
+  top:35%;
+  width:100%;
+  text-align:center;
+  color:white;
+  z-index:10;
+}
+#texto h1{
+  font-size:4em;
+  letter-spacing:5px;
+  text-shadow:0 0 20px pink,0 0 40px hotpink;
+  animation: latido 2s infinite;
+}
+#texto p{color:pink;font-size:1.5em;}
+button{
+  margin-top:15px;
+  padding:10px 25px;
+  border:none;
+  border-radius:20px;
+  background:hotpink;
+  color:white;
+  font-size:1.1em;
+  cursor:pointer;
+}
+#carta{
+  position:absolute;
+  top:10%;
+  left:50%;
+  transform:translateX(-50%);
+  width:80%;
+  max-width:600px;
+  background:rgba(0,0,0,0.9);
+  border:2px solid pink;
+  border-radius:15px;
+  padding:20px;
+  color:white;
+  display:none;
+  z-index:20;
+}
+@keyframes latido{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
+</style>
+</head>
+
+<body>
+
+<div id="texto">
+  <h1>NAYE</h1>
+  <p>Te amo con todo mi corazón 💖</p>
+  <button onclick="mostrarCarta()">💌 Abrir carta</button>
+</div>
+
+<div id="carta">
+<h2>Para Naye 💕</h2>
+<p>
+Naye, mi cielo y mi canción,<br>
+mi estrella en la oscuridad,<br>
+si el amor tuviera dirección,<br>
+sería tu nombre, mi verdad.<br><br>
+
+Tus ojos pintan mi universo,<br>
+como galaxia sin final,<br>
+si mi vida fuera un verso,<br>
+tú serías mi señal. 💖
+</p>
+<button onclick="cerrarCarta()">Cerrar</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152/build/three.min.js"></script>
+
+<script>
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer=new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth,window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// estrellas
+const geometry=new THREE.BufferGeometry();
+const vertices=[];
+for(let i=0;i<3000;i++){
+  vertices.push((Math.random()-0.5)*1000);
+  vertices.push((Math.random()-0.5)*1000);
+  vertices.push((Math.random()-0.5)*1000);
+}
+geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+const material=new THREE.PointsMaterial({color:0xffffff});
+const stars=new THREE.Points(geometry,material);
+scene.add(stars);
+
+// galaxia
+const galaxyGeo=new THREE.TorusGeometry(80,20,16,100);
+const galaxyMat=new THREE.MeshBasicMaterial({color:0xff69b4,wireframe:true});
+const galaxy=new THREE.Mesh(galaxyGeo,galaxyMat);
+scene.add(galaxy);
+
+camera.position.z=200;
+
+function animate(){
+  requestAnimationFrame(animate);
+  stars.rotation.y+=0.0005;
+  galaxy.rotation.x+=0.002;
+  galaxy.rotation.y+=0.003;
+  renderer.render(scene,camera);
+}
+animate();
+
+function mostrarCarta(){
+  document.getElementById("carta").style.display="block";
+}
+function cerrarCarta(){
+  document.getElementById("carta").style.display="none";
+}
+</script>
+
+</body>
+</html>
